@@ -189,6 +189,12 @@ Repeat exercise A.3 using DataFrames instead.
 ```python
 # Problem A.3 Can you multiply these two matrices together? Why does a * b work, but
 # not dot(a,b)?
+
+# a * b is element-wise multiplication, so it works because the dimensions match
+a * b
+
+# a.dot(b) is matrix multiplication, so it doesn't work because the "inner" dimensions must match
+# a.dot(b)
 ```
 
 ## Exercise 11
@@ -198,6 +204,28 @@ Repeat exercise A.7 using a dataframe.
 # Problem A.7 Write a function that consists of a set of loops that run through an array
 # and count the number of ones in it. Do the same thing using the where() function
 # (use info(where) to find out how to use it).
+
+def count_ones_df(df):
+    ones = 0
+    for i in range(df.shape[0]):
+        for j in range(df.shape[1]):
+            if df.iloc[i, j] == 1:
+                ones += 1
+    return ones
+
+a = pd.DataFrame(np.random.randint(0, 5, (5, 5)))
+print(a)
+count_ones_df(a)
+```
+
+```python
+# where method
+a.where(a == 1, 0).to_numpy().sum()
+```
+
+```python
+# alternate where method
+a.where(a == 1, 0).sum().sum()
 ```
 
 ## Exercises 12-14
@@ -217,24 +245,32 @@ Notice how we have nice headers and mixed datatypes? That is one of the reasons 
 How do you select the ``name`` column without using .iloc?
 
 ```python
-## YOUR SOLUTION HERE
+titanic_df["name"]
+```
+
+```python
+titanic_df.name
 ```
 
 ## Exercise 13
 After setting the index to ``sex``, how do you select all passengers that are ``female``? And how many female passengers are there?
 
 ```python
-## YOUR SOLUTION HERE
 titanic_df.set_index('sex',inplace=True)
+titanic_df
+```
+
+```python
+titanic_df.loc["female"]
+```
+
+```python
+len(titanic_df.loc["female"])
 ```
 
 ## Exercise 14
 How do you reset the index?
 
 ```python
-## YOUR SOLUTION HERE
-```
-
-```python
-
+titanic_df.reset_index()
 ```
